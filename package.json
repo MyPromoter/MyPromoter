@@ -1,0 +1,30 @@
+{
+  "name": "mypromoter",
+  "version": "1.0.0",
+  "description": "A Direct Connection Between Consumers & Nightlife Venues",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js"
+  },
+  "author": "Neil Deep Agarwal",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.6",
+    "express": "^4.14.0",
+    "express-react-views": "^0.10.2",
+    "jquery": "^3.1.0",
+    "mongodb": "^2.2.0",
+    "mongoose": "^4.5.3",
+    "nodemon": "^1.9.2",
+    "react": "^15.2.0",
+    "react-dom": "^15.2.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.5.2",
+    "redux": "^3.5.2",
+    "socket.io": "^1.4.8",
+    "socket.io-client": "^1.4.8"
+  }
+}
