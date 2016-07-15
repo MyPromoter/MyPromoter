@@ -6,28 +6,43 @@ mongoose.connect('mongodb://localhost/MyPromoter');
 console.log('MongoDB Connection is Open!');
 
 var usersSchema = new Schema({
-  /*ADD IN FB, TWITTER, IG SPECS*/
+  /*ADD IN FACEBOOK, TWITTER, IG SPECS*/
   firstName: String,
   lastName: String,
   dob: /*DATE FORMAT*/,
-  driversLicense: /*IMAGE*/,
+  driversLicense: /*UPLOAD IMAGE*/,
   email: String,
   username: String,
   password: String,
-  profilePicture: /*IMAGE*/,
-  deals: [],
-  fastDeals: []
-});
-
-var venueSchema = new Schema({
-  /*IMPORT DATA FROM YELP API, GOOGLE MAPS API*/
-  name: String,
-  address: String,
-  phoneNumber: Number,
-  deals: [],
-  fastDeals: []
+  userPic: /*UPLOAD IMAGE*/,
+  deals: [{
+      item: {type: String, required: true},
+      price: {type: Number, required: true}
+  }],
+  fastDeals: [{
+      item: {type: String, required: true},
+      price: {type: Number, required: true},
+      timeLeft: /*TIME COUNTDOWN*/
+  }],
+  venue: String,
+  guestList: [{
+    guestName: String,
+    guestNumber: Number,
+    guestParty: Number,
+    venue: String,
+    event: String
+  }],
+  tableList: [{
+    guestName: String,
+    guestNumber: Number,
+    guestParty: Number,
+    tablePackage: String,
+    event: String,
+    venue: String
+  }],
+  preferredCities: [{cityName: String}],
+  location: {lat: {type: Number}, lng: {type: Number}}
 });
 
 var User = mongoose.model('user', usersSchema);
-var Venue = mongoose.model('venue', venueSchema);
 module.exports = User;

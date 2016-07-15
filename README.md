@@ -14,7 +14,7 @@
   2. Book directly on app.
   3. Allow promoters to signup with our app to offer their guestlist and bottle deals and promote events.
   4. Allow Users to Enter Email / Phone # to recieve deal alerts.
-  5. Notify users who's location while using the app is within a  15 mile radius of clubs and events.
+  5. Notify users who's location while using the app is within a 15 mile radius of clubs and events.
 
 ## USER STORIES: ##
 
@@ -31,14 +31,17 @@
    - CONNECT TWITTER ACCOUNT
    - CONNECT INSTAGRAM ACCOUNT
 
- 2. As a User, I should be able to sign up for EMAIL/TEXT alerts into the app
+ 2. As a User, I should be able to sign up for EMAIL/TEXT alerts the app (Option seen in the Lobby)
    - EMAIL (Required)
    - PHONE # (Optional)
+   - Preferred Cities (5 Required)
+   - Preferred Promoters (5 Required)
 
  3. As a User, upon tapping the icon, I should see a Landing Page
    - SEARCH Tab -
-     - GOOGLE MAPS API, Search by City, Venue Name, Zip Code, Address.
-   - FAST DEALS by PROMOTERS Within Area - Current, timed deals for bottle service, & other offers.
+   - GOOGLE MAPS API, Search by City, Venue Name, Zip Code, Address.
+   - PROMOTERS NEAR YOU - Current, timed deals for bottle service, & other offers.
+   - SignUp for EMAIL/TEXT Alerts - When a user is within a set radius of promoters, text/email the user that promoter's FlashDeals/TopDeals.
    - MyPromoter Network Map - (DATA MAP of US/WORLD that displays Our Connections)
    - Contact Tab - CONTACT FORM / Press Inquiries / Management
 
