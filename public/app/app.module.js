@@ -1,2 +1,1 @@
-angular
-  .module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
+var app = angular.module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);

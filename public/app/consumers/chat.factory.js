@@ -18,17 +18,17 @@ angular
 
       socket.on('updated user list', function(data) {
         state.userList = data.users;
-        console.log('user list: ', data);
+        console.log('*user list: ', data,'*');
       });
 
       socket.on('message', function(data) {
         set('messages', data);
-        console.log('messages: ', state.messages);
+        console.log('*messages: ', state.messages,'*');
       });
 
       socket.on('user left ', function(data) {
         set('userLeft', data);
-        console.log('message: ', message);
+        console.log('*message: ', message,'*');
       });
     }
 
@@ -41,7 +41,7 @@ angular
         state[key].push(data);
       } else {
         state[key] = data;
-        console.log('State: ',state);
+        console.log('*State: ',state,'*');
       }
     }
 

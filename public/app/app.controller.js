@@ -34,7 +34,7 @@
       $state.go('consumers');
     }
 
-    // this'll be called on every state change in the app
+    // During App State Change,
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
 
         console.log('*State Change Detected* =========');
@@ -55,15 +55,13 @@
         socket.connectSocket().then(function() {
           consumersListeners.init();
           chatFactory.chatListeners();
-          battlefieldFactory.boardReset();
           socket.emit('who am i');
-          statsFactory.getBoard();
         });
       }
 
-      if (toState.name === 'waiting') {
+      if (toState.name === 'loading') {
 
-        if (!consumersFactory.get('waiting')) {
+        if (!consumersFactory.get('loading')) {
           goToConsumers();
           return;
         }
@@ -74,27 +72,27 @@
         }
 
         if (!socket.isConnected()) {
-          console.error('toState.name: waiting // *ERROR: Socket NOT Connected*');
+          console.error('toState.name: loading // *ERROR: Socket NOT Connected*');
           $state.go('consumers');
           return;
         }
 
-        waitingListenersFactory.init();
+        loadingListenersFactory.init();
       }
 
-      if (toState.name === 'battlefield') {
-        if (fromState.name !== 'waiting') {
+      if (toState.name === 'CHANGE_To_Right_STATE') {
+        if (fromState.name !== 'loading') {
           goToLobby();
           return;
         }
 
         if (!socketFactory.isConnected()) {
-          console.error('toState.name: battlefield // *ERROR: Socket NOT Connected*');
+          console.error('toState.name: CHANGE_To_Right_STATE // *ERROR: Socket NOT Connected*');
           $state.go('consumers');
           return;
         }
 
-        battlefieldFactory.listeners();
+        //*Initialize State Socket Listeners Here*//
 
         angular.element(document).ready(function() {
           $timeout(function() {
@@ -104,8 +102,8 @@
         });
       }
 
-      if (fromState.name === 'waiting') {
-        waitingFactory.reset();
+      if (fromState.name === 'loading') {
+        loadingFactory.reset();
       }
 
       if (fromState.name === 'consumers') {

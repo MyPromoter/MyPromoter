@@ -1,5 +1,4 @@
-angular
-  .module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
+var app = angular.module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
 (function() {
 
   angular
@@ -36,7 +35,7 @@ angular
       $state.go('consumers');
     }
 
-    // this'll be called on every state change in the app
+    // During App State Change,
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
 
         console.log('*State Change Detected* =========');
@@ -57,15 +56,13 @@ angular
         socket.connectSocket().then(function() {
           consumersListeners.init();
           chatFactory.chatListeners();
-          battlefieldFactory.boardReset();
           socket.emit('who am i');
-          statsFactory.getBoard();
         });
       }
 
-      if (toState.name === 'waiting') {
+      if (toState.name === 'loading') {
 
-        if (!consumersFactory.get('waiting')) {
+        if (!consumersFactory.get('loading')) {
           goToConsumers();
           return;
         }
@@ -76,27 +73,27 @@ angular
         }
 
         if (!socket.isConnected()) {
-          console.error('toState.name: waiting // *ERROR: Socket NOT Connected*');
+          console.error('toState.name: loading // *ERROR: Socket NOT Connected*');
           $state.go('consumers');
           return;
         }
 
-        waitingListenersFactory.init();
+        loadingListenersFactory.init();
       }
 
-      if (toState.name === 'battlefield') {
-        if (fromState.name !== 'waiting') {
+      if (toState.name === 'CHANGE_To_Right_STATE') {
+        if (fromState.name !== 'loading') {
           goToLobby();
           return;
         }
 
         if (!socketFactory.isConnected()) {
-          console.error('toState.name: battlefield // *ERROR: Socket NOT Connected*');
+          console.error('toState.name: CHANGE_To_Right_STATE // *ERROR: Socket NOT Connected*');
           $state.go('consumers');
           return;
         }
 
-        battlefieldFactory.listeners();
+        //*Initialize State Socket Listeners Here*//
 
         angular.element(document).ready(function() {
           $timeout(function() {
@@ -106,8 +103,8 @@ angular
         });
       }
 
-      if (fromState.name === 'waiting') {
-        waitingFactory.reset();
+      if (fromState.name === 'loading') {
+        loadingFactory.reset();
       }
 
       if (fromState.name === 'consumers') {
@@ -336,17 +333,17 @@ angular
 
       socket.on('updated user list', function(data) {
         state.userList = data.users;
-        console.log('user list: ', data);
+        console.log('*user list: ', data,'*');
       });
 
       socket.on('message', function(data) {
         set('messages', data);
-        console.log('messages: ', state.messages);
+        console.log('*messages: ', state.messages,'*');
       });
 
       socket.on('user left ', function(data) {
         set('userLeft', data);
-        console.log('message: ', message);
+        console.log('*message: ', message,'*');
       });
     }
 
@@ -359,7 +356,7 @@ angular
         state[key].push(data);
       } else {
         state[key] = data;
-        console.log('State: ',state);
+        console.log('*State: ',state,'*');
       }
     }
 
@@ -437,58 +434,11 @@ angular
         return;
       }
 
-      socket.on('player already in queue', userAlreadyInQueue);
-      socket.on('added to queue', addedToQueue);
-      socket.on('join code invalid', joinCodeInvalid);
-      socket.on('join code added', joinCodeAdded);
-      socket.on('join code found', joinCodeFound);
-      socket.on('join code not found', joinCodeNotFound);
       socket.on('you are', youAre);
     }
 
     function youAre(resp) {
       // event: 'you are'
-      consumers.set('player', resp);
-      consumers.set('avatar', resp.avatar);
-    }
-
-    function userAlreadyInQueue(resp) {
-      // event: 'user already in queue'
-      consumers.set('joinQueueErrorMessage', 'User already in queue.');
-    }
-
-    function addedToQueue() {
-      // event: 'added to queue'
-      consumers.set('whereTo', 'queue');
-      consumers.set('waiting', true);
-      $state.go('waiting');
-    }
-
-    function joinCodeInvalid(resp) {
-      // event: 'join code invalid'
-      consumers.set('joinCodeErrorMessage', resp.message);
-    }
-
-    function joinCodeAdded() {
-      // event: 'join code added'
-      consumers.set('whereTo', 'private');
-      consumers.set('joinCode', consumers.get('tempJoinCode'));
-      consumers.set('tempJoinCode', '');
-      console.log('consumers whereTo = ', consumers.get('whereTo'));
-      $state.go('waiting');
-    }
-
-    function joinCodeFound() {
-      // event: 'join code found'
-      consumers.set('whereTo', 'private');
-      consumers.set('joinCode', consumers.get('tempJoinCode'));
-      consumers.set('tempJoinCode', '');
-      $state.go('waiting');
-    }
-
-    function joinCodeNotFound(resp) {
-      // event: 'join code not found'
-      consumers.set('joinCodeErrorMessage2', resp.message);
     }
 
   }
