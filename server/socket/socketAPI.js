@@ -1,6 +1,6 @@
 // var eventEmitter = require('events');
-// var firebase = require('../common').firebase;
-var lobbyListeners = require('../lobby/lobby').lobbyListeners;
+var firebase = require('../common').firebase;
+var consumersListeners = require('../consumers/consumers').consumersListeners;
 var chatListeners = require('../chat/chat').chatListeners;
 
 var SocketAPI = function(socket, userModel, token) {
@@ -25,11 +25,11 @@ var SocketAPI = function(socket, userModel, token) {
 
 SocketAPI.prototype.init = function() {
 	delete this.user._doc.password;
-	lobbyListeners(this);
+	consumersListeners(this);
   queueListeners(this);
   privateGameListeners(this);
   chatListeners(this);
-	this.emit('socket initialized');
+	this.emit('*Socket Initialized*');
 };
 
 SocketAPI.prototype.on = function(event, cb, auth) {
@@ -37,7 +37,7 @@ SocketAPI.prototype.on = function(event, cb, auth) {
     this.socket.on(event, authenticate.bind(this));
   } else {
     this.socket.on(event, cb);
-	  console.log('ON:'.bgMagenta,'-->'.magenta, event);
+	  console.log('*ON EVENT: ',event,'*');
   }
 	function authenticate(data) {
     firebase.authWithCustomToken(data.token, function(err, authData) {
@@ -54,15 +54,15 @@ SocketAPI.prototype.once= function (event, cb) {
 
 SocketAPI.prototype.emit = function(event, data) {
 	this.socket.emit(event, data);
-	console.log('EMIT:'.bgCyan,'-->'.cyan, event, data);
+	console.log('*EMITTED -> EVENT: ',event,' DATA: ',data, '*');
 	this.emitters[event]=this.socketId;
 };
 
 SocketAPI.prototype.delayEmit = function(event, data, wait){
-	var sock = this;
+	var thisSocket = this;
 	setTimeout(function () {
-		sock.emit(event, data);
-		console.log('DELAYED EMIT'.bgYellow, event,'DATA SENT'.bgYellow, data);
+		thisSocket.emit(event, data);
+		console.log('*DELAYED EMIT: ', event,'* ','*DATA SENT: ', data,'*');
 	});
 };
 
@@ -70,18 +70,12 @@ SocketAPI.prototype.getUserModel = function() {
 	return this.user._doc;
 };
 
-SocketAPI.prototype.updateStats = function(obj) {
-  this.user._doc.mmr = obj.mmr;
-  this.user._doc.wins = obj.wins;
-  this.user._doc.losses = obj.losses;
-};
-
 SocketAPI.prototype.getUsername = function() {
 	return this.user._doc.username;
 };
 
 SocketAPI.prototype.getSocketId = function () {
-    return this.socketId;
+  return this.socketId;
 };
 
 SocketAPI.prototype.err = function(err) {
