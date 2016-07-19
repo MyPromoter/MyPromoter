@@ -13,12 +13,10 @@
     'socketFactory',
     'consumersFactory',
     'consumersListenersFactory',
-    'landingFactory',
-    'promotersFactory',
     'chatFactory'
   ];
 
-  function appController($scope, $state, $window, $timeout, authFactory, socketFactory, consumersFactory, consumersListenersFactory, landingFactory, chatFactory) {
+  function appController($scope, $state, $window, $timeout, authFactory, socketFactory, consumersFactory, consumersListenersFactory, chatFactory) {
     var emit = socketFactory.emit;
     var on = socketFactory.on;
 
