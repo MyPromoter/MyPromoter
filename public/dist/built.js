@@ -315,11 +315,11 @@ angular
   .module('app')
   .factory('chatFactory', chatFactory);
 
-  chatFactory.$inject = ['socketFactory', '$state'];
+  chatFactory.$inject = ['$state', 'socketFactory', 'consumersFactory'];
 
   function chatFactory(socketFactory, $state) {
     var socket = socketFactory;
-    var lobby = lobbyFactory;
+    var consumers = consumersFactory;
 
     var state = {
       userList: [],
