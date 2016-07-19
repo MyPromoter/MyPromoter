@@ -2,25 +2,25 @@
 
 angular
   .module('app')
-  .factory('lobbyListenersFactory', lobbyListenersFactory);
+  .factory('consumersListenersFactory', consumersListenersFactory);
 
-  lobbyListenersFactory.$inject = ['socketFactory', 'lobbyFactory','$state'];
+  consumersListenersFactory.$inject = ['socketFactory', 'consumersFactory','$state'];
 
-  function lobbyListenersFactory(socketFactory, lobbyFactory, $state) {
+  function consumersListenersFactory(socketFactory, consumersFactory, $state) {
 
     var socket = socketFactory;
-    var lobby = lobbyFactory;
+    var consumers = consumersFactory;
 
     return {
       init: init
     };
 
     // -----------------------
-    // lobby listeners
+    // consumers listeners
 
     function init() {
       if (!socket.isConnected()) {
-        console.error('socket is not connected. Can\'t set up lobby listeners');
+        console.error('*Socket NOT Connected. consumersListeners SetUp Failed*');
         return;
       }
 
@@ -35,47 +35,47 @@ angular
 
     function youAre(resp) {
       // event: 'you are'
-      lobby.set('player', resp);
-      lobby.set('avatar', resp.avatar);
+      consumers.set('player', resp);
+      consumers.set('avatar', resp.avatar);
     }
 
     function userAlreadyInQueue(resp) {
       // event: 'user already in queue'
-      lobby.set('joinQueueErrorMessage', 'User already in queue.');
+      consumers.set('joinQueueErrorMessage', 'User already in queue.');
     }
 
     function addedToQueue() {
       // event: 'added to queue'
-      lobby.set('whereTo', 'queue');
-      lobby.set('waiting', true);
+      consumers.set('whereTo', 'queue');
+      consumers.set('waiting', true);
       $state.go('waiting');
     }
 
     function joinCodeInvalid(resp) {
       // event: 'join code invalid'
-      lobby.set('joinCodeErrorMessage', resp.message);
+      consumers.set('joinCodeErrorMessage', resp.message);
     }
 
     function joinCodeAdded() {
       // event: 'join code added'
-      lobby.set('whereTo', 'private');
-      lobby.set('joinCode', lobby.get('tempJoinCode'));
-      lobby.set('tempJoinCode', '');
-      console.log('lobby whereTo = ', lobby.get('whereTo'));
+      consumers.set('whereTo', 'private');
+      consumers.set('joinCode', consumers.get('tempJoinCode'));
+      consumers.set('tempJoinCode', '');
+      console.log('consumers whereTo = ', consumers.get('whereTo'));
       $state.go('waiting');
     }
 
     function joinCodeFound() {
       // event: 'join code found'
-      lobby.set('whereTo', 'private');
-      lobby.set('joinCode', lobby.get('tempJoinCode'));
-      lobby.set('tempJoinCode', '');
+      consumers.set('whereTo', 'private');
+      consumers.set('joinCode', consumers.get('tempJoinCode'));
+      consumers.set('tempJoinCode', '');
       $state.go('waiting');
     }
 
     function joinCodeNotFound(resp) {
       // event: 'join code not found'
-      lobby.set('joinCodeErrorMessage2', resp.message);
+      consumers.set('joinCodeErrorMessage2', resp.message);
     }
 
   }

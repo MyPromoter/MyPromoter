@@ -1,8 +1,9 @@
-## MyPromoter : A Direct Connection Between Consumers & Nightlife Venues ##
+## MyPromoter : An Upscale Connection Between Consumers & Nightlife ##
 
 ## Current Problems in Booking Tables at Nightlife Venues: ##
   1. Currently, promotors aggressively market their custom deals to potential clients.
   2. Foreigners don't like dealing with street promoters.
+  3. No app that is explicitly for the Nightlife Entertainment scene.
 
 ## Current Scenario ##
   You know someone that works at/for the club.

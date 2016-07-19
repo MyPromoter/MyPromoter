@@ -1,17 +1,16 @@
 angular
   .module('app')
-  .factory('lobbyFactory', lobbyFactory);
+  .factory('consumersFactory', consumersFactory);
 
-	lobbyFactory.$inject = ['$state'];
+	consumersFactory.$inject = ['$state'];
 
-	function lobbyFactory($state) {
+	function consumersFactory($state) {
 
 		var state = {
 			joinCodeErrorMessage: '',
 			joinCodeErrorMessage2: '',
 			joinQueueErrorMessage: '',
 			whereTo: null,
-			promoter: {},
 			waiting: false
 		};
 
@@ -22,7 +21,7 @@ angular
 		};
 
 		function reset() {
-			console.log('reset was called inside lobby factory');
+			console.log('*Reset Called Within consumersFactory*');
 			state.joinCodeErrorMessage = '';
 			state.joinCodeErrorMessage2 = '';
 			state.joinQueueErrorMessage = '';

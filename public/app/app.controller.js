@@ -11,37 +11,35 @@
     '$timeout',
     'authFactory',
     'socketFactory',
-    'statsFactory',
-    'lobbyFactory',
-    'lobbyListenersFactory',
-    'waitingListenersFactory',
-    'waitingFactory',
-    'battlefieldFactory',
+    'consumersFactory',
+    'consumersListenersFactory',
+    'landingFactory',
+    'promotersFactory',
     'chatFactory'
   ];
 
-  function appController($scope, $state, $window, $timeout, authFactory, socketFactory, statsFactory, lobbyFactory, lobbyListenersFactory, waitingListenersFactory, waitingFactory, battlefieldFactory, chatFactory) {
+  function appController($scope, $state, $window, $timeout, authFactory, socketFactory, consumersFactory, consumersListenersFactory, landingFactory, chatFactory) {
     var emit = socketFactory.emit;
     var on = socketFactory.on;
 
-    var lobbyListeners = lobbyListenersFactory;
+    var consumersListeners = consumersListenersFactory;
     var socket = socketFactory;
 
-    var lobby = lobbyFactory;
+    var consumers = consumersFactory;
 
     var vm = this;
     vm.bodyClasses = 'default';
 
-    function goToLobby() {
-      $state.go('lobby');
+    function goToConsumers() {
+      $state.go('consumers');
     }
 
     // this'll be called on every state change in the app
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
 
-        console.log('state change =========');
-        console.log('to: ', toState.name);
-        console.log('from: ', fromState.name);
+        console.log('*State Change Detected* =========');
+        console.log('From: ', fromState.name);
+        console.log('To: ', toState.name);
         console.log('======================');
 
       if (toState.data.authenticate) {
@@ -51,11 +49,11 @@
         }
       }
 
-      if (toState.name === 'lobby') {
-        lobbyFactory.reset();
+      if (toState.name === 'consumers') {
+        consumersFactory.reset();
         socket.disconnect();
         socket.connectSocket().then(function() {
-          lobbyListeners.init();
+          consumersListeners.init();
           chatFactory.chatListeners();
           battlefieldFactory.boardReset();
           socket.emit('who am i');
@@ -65,19 +63,19 @@
 
       if (toState.name === 'waiting') {
 
-        if (!lobbyFactory.get('waiting')) {
-          goToLobby();
+        if (!consumersFactory.get('waiting')) {
+          goToConsumers();
           return;
         }
 
-        if (fromState.name !== 'lobby') {
+        if (fromState.name !== 'consumers') {
           goToLobby();
           return;
         }
 
         if (!socket.isConnected()) {
-          console.error('toState.name: waiting // No socket connection is set up. Something went wrong.');
-          $state.go('lobby');
+          console.error('toState.name: waiting // *ERROR: Socket NOT Connected*');
+          $state.go('consumers');
           return;
         }
 
@@ -91,8 +89,8 @@
         }
 
         if (!socketFactory.isConnected()) {
-          console.error('toState.name: battlefield // No socket connection is set up. Something went wrong.');
-          $state.go('lobby');
+          console.error('toState.name: battlefield // *ERROR: Socket NOT Connected*');
+          $state.go('consumers');
           return;
         }
 
@@ -100,7 +98,7 @@
 
         angular.element(document).ready(function() {
           $timeout(function() {
-            console.log('Emitted: clientReady');
+            console.log('*Emitted: clientReady*');
             socketFactory.emit('client ready');
           }, 2000);
         });
@@ -110,53 +108,9 @@
         waitingFactory.reset();
       }
 
-      if (fromState.name === 'lobby') {
-        lobbyFactory.reset();
+      if (fromState.name === 'consumers') {
+        consumersFactory.reset();
       }
-
-      if (fromState.name === 'battlefield') {
-        battlefieldFactory.boardReset();
-      }
-
-      // function moving(comingFrom, goingTo) {
-      //   return fromState.name === comingFrom && toState.name === goingTo;
-      // }
-
-      // console.log('state change =========');
-      // console.log('to: ', toState.name);
-      // console.log('from: ', fromState.name);
-      // console.log('======================');
-
-      // if (toState.name !== 'auth' && toState.name !== 'lobby') {
-      //   if (!socketFactory.isConnected()) {
-      //     goToLobby();
-      //   }
-      // }
-
-      // if (moving('lobby', 'battlefield')) {
-      //   goToLobby();
-      // }
-
-      // if (moving('battlefield', 'lobby')) {
-      //   goToLobby();
-      // }
-
-      // // if (fromState.name === 'battlefield' && toState.name === 'lobby') {
-      // //   $window.location.reload();
-      // // }
-
-      // if ((fromState.name === '' && toState.name === 'waiting') ||
-      //     (fromState.name === '' && toState.name === 'battlefield') ||
-      //     (fromState.name === 'waiting' && toState.name === 'lobby') ||
-      //     (fromState.name === 'battlefield' && toState.name !== 'lobby')
-      //   ) {
-      //   console.log('inside of invalid state change.');
-      //   console.log('state change =========');
-      //   console.log('to: ', toState.name);
-      //   console.log('from: ', toState.name);
-      //   console.log('======================');
-      //   goToLobby();
-      // }
 
       if (angular.isDefined(toState.data)) {
         if (angular.isDefined(toState.data.bodyClasses)) {

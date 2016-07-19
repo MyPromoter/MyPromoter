@@ -17,13 +17,13 @@ angular
     };
 
     function isConnected() {
-      console.log('socket connection = ', !!socket);
+      console.log('*Socket Connection = ', !!socket,'*');
       return !!socket;
     }
 
     function disconnect() {
       if (isConnected()) {
-        console.log('calling disconnect');
+        console.log('*Disconnecting Socket*');
         socket.disconnect();
         socket = null;
       }
@@ -32,10 +32,10 @@ angular
     function connectSocket() {
       return new Promise(function(resolve, reject) {
         if (!socket && authFactory.isAuthed()) {
-          console.log('connecting socket');
+          console.log('*Connecting Socket*');
           socket = io.connect();
           socket.on('socket initialized', function() {
-            console.log('socket initialized heard. Resolving!');
+            console.log('*Responding to Socket Initialized Emit*');
             resolve();
           });
           socket.emit('init', authFactory.attachToken({}));
@@ -50,7 +50,7 @@ angular
      *  packet envelope that we specify
      */
     function on(eventName, callback) {
-      console.log('on was called. inside socket factory, eventName = ', eventName);
+      console.log('*Socket.on(', eventName,') Was Called*');
       socket.on(eventName, function() {
         var args = arguments;
         $rootScope.$apply(function() {
@@ -64,7 +64,7 @@ angular
         data = data || {};
         data = authFactory.attachToken(data);
       }
-      console.log('emit was called. inside socket facotry, eventName = ', eventName);
+      console.log('*Socket.emit(', eventName,') Was Called*');
       socket.emit(eventName, data, function() {
         var args = arguments;
         $rootScope.$apply(function() {

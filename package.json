@@ -1,7 +1,7 @@
 {
   "name": "mypromoter",
   "version": "1.0.0",
-  "description": "A Direct Connection Between Consumers & Nightlife Venues",
+  "description": "An Upscale Connection Between Consumers & Nightlife",
   "main": "./server/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
