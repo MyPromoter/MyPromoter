@@ -12,7 +12,6 @@ module.exports = function(grunt) {
     watch: {
       files: ['public/styles/**/*.scss', 'public/app/**/*.js', 'server/**/*.js'],
       tasks: ['jshint', 'concat', 'sass']
-      // tasks: ['sass']
     },
     concat: {
       dist: {
@@ -20,17 +19,26 @@ module.exports = function(grunt) {
           'public/app/app.module.js',
           'public/app/app.controller.js',
 
+          'public/app/about/**/*.factory.js',
+          'public/app/about/**/*.controller.js',
+
           'public/app/auth/**/*.factory.js',
           'public/app/auth/**/*.controller.js',
 
+          'public/app/consumers/**/*.factory.js',
+          'public/app/consumers/**/*.controller.js',
+
+          'public/app/landing/**/*.factory.js',
+          'public/app/landing/**/*.controller.js',
+
+          'public/app/promoters/**/*.factory.js',
+          'public/app/promoters/**/*.controller.js',
+
+          'public/app/search/**/*.factory.js',
+          'public/app/search/**/*.controller.js',
+
           'public/app/shared/**/*.factory.js',
           'public/app/shared/**/*.controller.js',
-
-          'public/app/lobby/**/*.factory.js',
-          'public/app/lobby/**/*.controller.js',
-
-          'public/app/waiting/**/*.factory.js',
-          'public/app/waiting/**/*.controller.js',
 
           'public/app/sound/**/*.factory.js',
 
