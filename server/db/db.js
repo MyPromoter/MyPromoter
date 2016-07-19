@@ -9,22 +9,22 @@ var usersSchema = new Schema({
   /*ADD IN FACEBOOK, TWITTER, IG SPECS*/
   firstName: String,
   lastName: String,
-  dob: /*DATE FORMAT*/,
-  driversLicense: /*UPLOAD IMAGE*/,
+  dob: String/*DATE FORMAT*/,
+  driversLicense: String/*UPLOAD IMAGE*/,
   email: String,
   username: String,
   password: String,
-  userPic: /*UPLOAD IMAGE*/,
+  userPic: String/*UPLOAD IMAGE*/,
   deals: [{
       item: {type: String, required: true},
       price: {type: Number, required: true}
   }],
   fastDeals: [{
       item: {type: String, required: true},
-      price: {type: Number, required: true},
-      timeLeft: /*TIME COUNTDOWN*/
+      price: {type: Number, required: true}
   }],
-  venue: String,
+  associatedVenue: String,
+  associatedArtist: String,
   guestList: [{
     guestName: String,
     guestNumber: Number,
@@ -41,7 +41,8 @@ var usersSchema = new Schema({
     venue: String
   }],
   preferredCities: [{cityName: String}],
-  location: {lat: {type: Number}, lng: {type: Number}}
+  location: {lat: {type: Number}, lng: {type: Number}},
+  isPromoter: Boolean
 });
 
 var User = mongoose.model('user', usersSchema);
