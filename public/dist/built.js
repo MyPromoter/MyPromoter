@@ -1,5 +1,5 @@
 angular
-  .module('app')
+  .module('MyPromoter')
   .config(config);
 
 
@@ -73,7 +73,7 @@ function config($stateProvider, $urlRouterProvider) {
 (function() {
 
   angular
-    .module('app')
+    .module('MyPromoter')
     .controller('AppController', appController);
 
   appController.$inject = [
@@ -82,13 +82,17 @@ function config($stateProvider, $urlRouterProvider) {
     '$window',
     '$timeout',
     'authFactory',
-    'socketFactory',
     'consumersFactory',
     'consumersListenersFactory',
+    'landingFactory',
+    'promotersFactory',
+    'searchFactory',
+    'soundFactory',
+    'socketFactory',
     'chatFactory'
   ];
 
-  function appController($scope, $state, $window, $timeout, authFactory, socketFactory, consumersFactory, consumersListenersFactory, chatFactory) {
+  function appController($scope, $state, $window, $timeout, authFactory, consumersFactory, consumersListenersFactory, landingFactory, promotersFactory, searchFactory, soundFactory, socketFactory, chatFactory) {
     var emit = socketFactory.emit;
     var on = socketFactory.on;
 
@@ -193,7 +197,8 @@ function config($stateProvider, $urlRouterProvider) {
 
 })();
 
-var app = angular.module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
+angular
+  .module('MyPromoter', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
 (function (){
 
 angular

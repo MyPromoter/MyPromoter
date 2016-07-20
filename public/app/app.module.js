@@ -1,1 +1,2 @@
-var app = angular.module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
+angular
+  .module('MyPromoter', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);

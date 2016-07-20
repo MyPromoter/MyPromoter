@@ -1,7 +1,7 @@
 (function() {
 
   angular
-    .module('app')
+    .module('MyPromoter')
     .controller('AppController', appController);
 
   appController.$inject = [
@@ -10,13 +10,17 @@
     '$window',
     '$timeout',
     'authFactory',
-    'socketFactory',
     'consumersFactory',
     'consumersListenersFactory',
+    'landingFactory',
+    'promotersFactory',
+    'searchFactory',
+    'soundFactory',
+    'socketFactory',
     'chatFactory'
   ];
 
-  function appController($scope, $state, $window, $timeout, authFactory, socketFactory, consumersFactory, consumersListenersFactory, chatFactory) {
+  function appController($scope, $state, $window, $timeout, authFactory, consumersFactory, consumersListenersFactory, landingFactory, promotersFactory, searchFactory, soundFactory, socketFactory, chatFactory) {
     var emit = socketFactory.emit;
     var on = socketFactory.on;
 
