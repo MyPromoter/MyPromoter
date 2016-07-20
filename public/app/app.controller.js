@@ -32,8 +32,8 @@
     var vm = this;
     vm.bodyClasses = 'default';
 
-    function goToConsumers() {
-      $state.go('consumers');
+    function goLanding() {
+      $state.go('landing');
     }
 
     // During App State Change,
