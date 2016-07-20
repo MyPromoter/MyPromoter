@@ -1,4 +1,75 @@
-var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
+angular
+  .module('app')
+  .config(config);
+
+
+function config($stateProvider, $urlRouterProvider) {
+
+  $urlRouterProvider.otherwise('/landing');
+
+	$stateProvider
+		.state('landing', {
+			url: '/landing',
+			templateUrl: '../app/landing/landing.html',
+			controller: 'LandingController',
+			controllerAs: 'Landing',
+			data: {
+				bodyClasses: 'landing',
+				auth: false
+			}
+		})
+		.state('about', {
+			url: '/about',
+			templateUrl: '../app/about/about.html',
+			controller: 'AboutController',
+			controllerAs: 'About',
+			data: {
+				bodyClasses: 'about',
+				auth: false
+			}
+		})
+		.state('auth', {
+			url: '/auth',
+			templateUrl: '../app/auth/auth.html',
+			controller: 'AuthController',
+			controllerAs: 'Auth',
+			data: {
+				bodyClasses: 'auth',
+				auth: false
+			}
+		})
+	  .state('consumers', {
+	  	url: '/consumers',
+	  	templateUrl: '../app/consumers/consumers.html',
+	  	controller: 'ConsumersController',
+	  	controllerAs: 'Consumers',
+	  	data: {
+	  		bodyClasses : 'consumers',
+	  		auth: false
+	  	}
+	  })
+	  .state('promoters', {
+	  	url: '/promoters',
+	  	templateUrl: '../app/promoters/promoters.html',
+	  	controller: 'PromotersController',
+	  	controllerAs: 'Promoters',
+	  	data: {
+	  		bodyClasses : 'promoters',
+	  		auth: true
+	  	}
+	  })
+	  .state('search', {
+	  	url: '/search',
+	  	templateUrl: '../app/search/search.html',
+	  	controller: 'SearchController',
+	  	controllerAs: 'Search',
+	  	data: {
+	  		bodyClasses : 'search',
+	  		auth: false
+	  	}
+	  });
+}
+
 (function() {
 
   angular
@@ -122,7 +193,25 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'mcwe
 
 })();
 
+var app = angular.module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
+(function (){
 
+angular
+  .module('app')
+  .controller('AboutController', AboutController);
+
+AboutController.$inject = ['$scope', 'soundFactory'];
+
+function AboutController($scope, soundFactory) {
+  var vm = this;
+
+  vm.appIconURL = '../../images/MyPromoter.png';
+
+  soundFactory.loadSounds();
+
+}
+
+})();
 (function (){
   angular
     .module('app')
@@ -173,7 +262,7 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'mcwe
             state.signinErrorMessage += resp.data.message;
           }
           if (resp.data.token) {
-            $state.go('lobby');
+            $state.go('promoters');
             saveToken(resp.data.token);
           }
           if (resp.data.exists) {
@@ -209,7 +298,7 @@ var app = angular.module('app', ['ui.router', 'ui.bootstrap', 'ngAnimate', 'mcwe
             state.signinErrorMessage += resp.data.message;
           }
           if (resp.data.auth){
-            $state.go('lobby');
+            $state.go('promoters');
             saveToken(resp.data.token);
           }
           if (!resp.data.auth){
@@ -332,17 +421,17 @@ angular
 
       socket.on('updated user list', function(data) {
         state.userList = data.users;
-        console.log('*user list: ', data,'*');
+        console.log('*User List: ', data,'*');
       });
 
       socket.on('message', function(data) {
         set('messages', data);
-        console.log('*messages: ', state.messages,'*');
+        console.log('*Messages: ', state.messages,'*');
       });
 
       socket.on('user left ', function(data) {
         set('userLeft', data);
-        console.log('*message: ', message,'*');
+        console.log('*Message: ', message,'*');
       });
     }
 
@@ -413,9 +502,9 @@ angular
   .module('app')
   .factory('consumersListenersFactory', consumersListenersFactory);
 
-  consumersListenersFactory.$inject = ['socketFactory', 'consumersFactory','$state'];
+  consumersListenersFactory.$inject = ['$state', 'socketFactory', 'consumersFactory'];
 
-  function consumersListenersFactory(socketFactory, consumersFactory, $state) {
+  function consumersListenersFactory($state, socketFactory, consumersFactory) {
 
     var socket = socketFactory;
     var consumers = consumersFactory;
@@ -450,9 +539,9 @@ angular
   .module('app')
   .controller('ConsumersController', ConsumersController);
 
-  ConsumersController.$inject = ['$scope', 'consumersFactory', 'socketFactory', 'authFactory', 'statsFactory', 'soundFactory', 'chatFactory'];
+  ConsumersController.$inject = ['$scope', 'consumersFactory', 'socketFactory', 'authFactory', 'soundFactory', 'chatFactory'];
 
-  function ConsumersController($scope, consumersFactory, socketFactory, authFactory, statsFactory, soundFactory, chatFactory) {
+  function ConsumersController($scope, consumersFactory, socketFactory, authFactory, soundFactory, chatFactory) {
 
     var socket = socketFactory;
     var vm = this;
@@ -562,230 +651,190 @@ angular
       socketFactory.emit('new message', {message: message});
       vm.message = '';
     };
+
   }
 })();
 
+(function (){
+  angular
+    .module('app')
+    .factory('landingFactory', landingFactory);
 
+    landingFactory.$inject = ['$http', '$window', '$state'];
+
+    function landingFactory($http, $window, $state) {
+
+      console.log('*landingFactory Running*');
+
+      var state = {};
+
+      return {
+        get: get,
+        set: set,
+        enterApp: enterApp,
+        goAuth: goAuth,
+        goAbout: goAbout
+      };
+
+      function get(name) {
+        return state[name];
+      }
+
+      function set(key, value){
+        state[key] = value;
+        return;
+      }
+
+      function enterApp() {
+        console.log("*Entering Consumers' View*");
+        $state.go('consumers');
+      }
+
+      function goAuth() {
+        console.log('*Entering Auth View*');
+        $state.go('auth');
+      }
+
+      function goAbout() {
+        console.log('*Entering About View*');
+        $state.go('about');
+      }
+
+    }
+})();
 (function (){
 
 angular
   .module('app')
   .controller('LandingController', LandingController);
 
-LandingController.$inject = ['$scope', 'soundFactory'];
+LandingController.$inject = ['$scope', 'landingFactory', 'soundFactory'];
 
-function LandingController($scope, soundFactory) {
+function LandingController($scope, landingFactory, soundFactory) {
   var vm = this;
+  var lf = landingFactory;
   vm.appIconURL = '../../images/MyPromoter.png';
 
   soundFactory.loadSounds();
 
   vm.enterApp = function() {
-
+    lf.enterApp();
   };
 
-  vm.goToSignIn = function() {
-
+  vm.goAuth = function() {
+    lf.goAuth();
   };
 
-  vm.goToSignUp = function() {
-
+  vm.goAbout = function() {
+    lf.goAbout();
   };
 
-  vm.goToOurServices = function() {
-
-  };
-
-  vm.goToMeetManagement = function() {
-
-  };
 }
 
 })();
+(function (){
+  angular
+    .module('app')
+    .factory('promotersFactory', promotersFactory);
 
+    promotersFactory.$inject = ['$http', '$window', '$state'];
 
+    function promotersFactory($http, $window, $state) {
 
+      console.log('*promotersFactory Running*');
 
-angular
-  .module('app')
-  .factory('socketFactory', socketFactory);
+      var state = {};
 
-  socketFactory.$inject = ['$rootScope', 'authFactory'];
+      return {
+        get: get,
+        set: set
+      };
 
-  function socketFactory($rootScope, authFactory) {
-
-    var socket;
-
-    return {
-      disconnect: disconnect,
-      connectSocket: connectSocket,
-      on: on,
-      emit: emit,
-      isConnected: isConnected
-    };
-
-    function isConnected() {
-      console.log('*Socket Connection = ', !!socket,'*');
-      return !!socket;
-    }
-
-    function disconnect() {
-      if (isConnected()) {
-        console.log('*Disconnecting Socket*');
-        socket.disconnect();
-        socket = null;
+      function get(name) {
+        return state[name];
       }
-    }
 
-    function connectSocket() {
-      return new Promise(function(resolve, reject) {
-        if (!socket && authFactory.isAuthed()) {
-          console.log('*Connecting Socket*');
-          socket = io.connect();
-          socket.on('socket initialized', function() {
-            console.log('*Responding to Socket Initialized Emit*');
-            resolve();
-          });
-          socket.emit('init', authFactory.attachToken({}));
-        }
-      });
-    }
-
-    /**
-     *  Socket Events
-     *
-     *  Used to wrap the socket's native 'on' and 'emit' functions
-     *  packet envelope that we specify
-     */
-    function on(eventName, callback) {
-      console.log('*Socket.on(', eventName,') Was Called*');
-      socket.on(eventName, function() {
-        var args = arguments;
-        $rootScope.$apply(function() {
-          callback.apply(socket, args);
-        });
-      });
-    }
-
-    function emit(eventName, data, callback, auth) {
-      if (auth) {
-        data = data || {};
-        data = authFactory.attachToken(data);
+      function set(key, value){
+        state[key] = value;
+        return;
       }
-      console.log('*Socket.emit(', eventName,') Was Called*');
-      socket.emit(eventName, data, function() {
-        var args = arguments;
-        $rootScope.$apply(function() {
-          if(callback) {
-            callback.apply(socket, args);
-          }
-        });
-      });
+
     }
-  }
+})();
+(function (){
 
 angular
   .module('app')
-  .factory('soundFactory', soundFactory);
+  .controller('PromotersController', PromotersController);
 
-  soundFactory.$inject = ['SoundService'];
+PromotersController.$inject = ['$scope', 'promotersFactory', 'soundFactory'];
 
-  function soundFactory(SoundService) {
+function PromotersController($scope, promotersFactory, soundFactory) {
+  var vm = this;
+  var pf = promotersFactory;
+  vm.appIconURL = '../../images/MyPromoter.png';
 
-    var click = {name: 'click', src: '../../soundEffects/click.mp3'};
-    var paymentProcessed = {name: 'paymentProcessed', src: '../../soundEffects/paymentProcessed.mp3'};
+  soundFactory.loadSounds();
 
-    return {
-      loadSounds: loadSounds,
-      playChat: playPaymentProcessed,
-      playClick: playClick,
-    };
+  vm.enterApp = function() {
+    pf.enterApp();
+  };
 
-    function loadSounds() {
-      SoundService.loadSound(click);
-      SoundService.loadSound(paymentProcessed);
-    }
+  vm.goAuth = function() {
+    pf.goAuth();
+  };
 
-    function playPaymentProcessed() {
-      console.log('payment processed!');
-      SoundService.getSound(paymentProcessed.name).start();
-    }
+  vm.goAbout = function() {
+    pf.goAbout();
+  };
 
-    function playClick() {
-      console.log('something clicked!');
-      SoundService.getSound(click.name).start();
-    }
-
-  }
-
-angular
-  .module('app')
-  .config(config);
-
-
-function config($stateProvider, $urlRouterProvider) {
-
-  $urlRouterProvider.otherwise('/landing');
-
-	$stateProvider
-		.state('landing', {
-			url: '/landing',
-			templateUrl: '../app/landing/landing.html',
-			controller: 'LandingController',
-			controllerAs: 'Landing',
-			data: {
-				bodyClasses: 'landing',
-				auth: false
-			}
-		})
-		.state('about', {
-			url: '/about',
-			templateUrl: '../app/about/about.html',
-			controller: 'AboutController',
-			controllerAs: 'About',
-			data: {
-				bodyClasses: 'about',
-				auth: false
-			}
-		})
-		.state('auth', {
-			url: '/auth',
-			templateUrl: '../app/auth/auth.html',
-			controller: 'AuthController',
-			controllerAs: 'Auth',
-			data: {
-				bodyClasses: 'auth',
-				auth: false
-			}
-		})
-	  .state('consumers', {
-	  	url: '/consumers',
-	  	templateUrl: '../app/consumers/consumers.html',
-	  	controller: 'ConsumersController',
-	  	controllerAs: 'Consumers',
-	  	data: {
-	  		bodyClasses : 'consumers',
-	  		auth: false
-	  	}
-	  })
-	  .state('promoters', {
-	  	url: '/promoters',
-	  	templateUrl: '../app/promoters/promoters.html',
-	  	controller: 'PromotersController',
-	  	controllerAs: 'Promoters',
-	  	data: {
-	  		bodyClasses : 'promoters',
-	  		auth: true
-	  	}
-	  })
-	  .state('search', {
-	  	url: '/search',
-	  	templateUrl: '../app/search/search.html',
-	  	controller: 'SearchController',
-	  	controllerAs: 'Search',
-	  	data: {
-	  		bodyClasses : 'search',
-	  		auth: false
-	  	}
-	  });
 }
+
+})();
+(function (){
+  angular
+    .module('app')
+    .factory('searchFactory', searchFactory);
+
+    searchFactory.$inject = ['$http', '$window', '$state'];
+
+    function searchFactory($http, $window, $state) {
+
+      console.log('*searchFactory Running*');
+
+      var state = {};
+
+      return {
+        get: get,
+        set: set
+      };
+
+      function get(name) {
+        return state[name];
+      }
+
+      function set(key, value){
+        state[key] = value;
+        return;
+      }
+
+    }
+})();
+(function (){
+
+angular
+  .module('app')
+  .controller('SearchController', SearchController);
+
+SearchController.$inject = ['$scope', 'searchFactory', 'soundFactory'];
+
+function SearchController($scope, searchFactory, soundFactory) {
+  var vm = this;
+  var sf = searchFactory;
+  vm.appIconURL = '../../images/MyPromoter.png';
+
+  soundFactory.loadSounds();
+
+}
+
+})();

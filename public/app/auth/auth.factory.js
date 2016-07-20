@@ -48,7 +48,7 @@
             state.signinErrorMessage += resp.data.message;
           }
           if (resp.data.token) {
-            $state.go('lobby');
+            $state.go('promoters');
             saveToken(resp.data.token);
           }
           if (resp.data.exists) {
@@ -84,7 +84,7 @@
             state.signinErrorMessage += resp.data.message;
           }
           if (resp.data.auth){
-            $state.go('lobby');
+            $state.go('promoters');
             saveToken(resp.data.token);
           }
           if (!resp.data.auth){

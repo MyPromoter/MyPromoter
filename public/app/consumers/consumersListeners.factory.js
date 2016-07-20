@@ -4,9 +4,9 @@ angular
   .module('app')
   .factory('consumersListenersFactory', consumersListenersFactory);
 
-  consumersListenersFactory.$inject = ['socketFactory', 'consumersFactory','$state'];
+  consumersListenersFactory.$inject = ['$state', 'socketFactory', 'consumersFactory'];
 
-  function consumersListenersFactory(socketFactory, consumersFactory, $state) {
+  function consumersListenersFactory($state, socketFactory, consumersFactory) {
 
     var socket = socketFactory;
     var consumers = consumersFactory;

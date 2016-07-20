@@ -4,33 +4,27 @@ angular
   .module('app')
   .controller('LandingController', LandingController);
 
-LandingController.$inject = ['$scope', 'soundFactory'];
+LandingController.$inject = ['$scope', 'landingFactory', 'soundFactory'];
 
-function LandingController($scope, soundFactory) {
+function LandingController($scope, landingFactory, soundFactory) {
   var vm = this;
+  var lf = landingFactory;
   vm.appIconURL = '../../images/MyPromoter.png';
 
   soundFactory.loadSounds();
 
   vm.enterApp = function() {
-
+    lf.enterApp();
   };
 
-  vm.goToSignIn = function() {
-
+  vm.goAuth = function() {
+    lf.goAuth();
   };
 
-  vm.goToSignUp = function() {
-
+  vm.goAbout = function() {
+    lf.goAbout();
   };
 
-  vm.goToOurServices = function() {
-
-  };
-
-  vm.goToMeetManagement = function() {
-
-  };
 }
 
 })();

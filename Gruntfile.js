@@ -16,8 +16,10 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
-          'public/app/app.module.js',
+          'public/app/app.config.js',
           'public/app/app.controller.js',
+          'public/app/app.module.js',
+
 
           'public/app/about/**/*.factory.js',
           'public/app/about/**/*.controller.js',
@@ -37,12 +39,7 @@ module.exports = function(grunt) {
           'public/app/search/**/*.factory.js',
           'public/app/search/**/*.controller.js',
 
-          'public/app/shared/**/*.factory.js',
-          'public/app/shared/**/*.controller.js',
-
-          'public/app/sound/**/*.factory.js',
-
-          'public/app/ui-router/app.config.js'
+          'public/app/shared/**/*.factory.js'
         ],
         dest: 'public/dist/built.js',
       }

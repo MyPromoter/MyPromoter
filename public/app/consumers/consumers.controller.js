@@ -4,9 +4,9 @@
   .module('app')
   .controller('ConsumersController', ConsumersController);
 
-  ConsumersController.$inject = ['$scope', 'consumersFactory', 'socketFactory', 'authFactory', 'statsFactory', 'soundFactory', 'chatFactory'];
+  ConsumersController.$inject = ['$scope', 'consumersFactory', 'socketFactory', 'authFactory', 'soundFactory', 'chatFactory'];
 
-  function ConsumersController($scope, consumersFactory, socketFactory, authFactory, statsFactory, soundFactory, chatFactory) {
+  function ConsumersController($scope, consumersFactory, socketFactory, authFactory, soundFactory, chatFactory) {
 
     var socket = socketFactory;
     var vm = this;
@@ -116,5 +116,6 @@
       socketFactory.emit('new message', {message: message});
       vm.message = '';
     };
+
   }
 })();
