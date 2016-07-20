@@ -1,4 +1,6 @@
 angular
+  .module('MyPromoter', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
+angular
   .module('MyPromoter')
   .config(config);
 
@@ -197,8 +199,6 @@ function config($stateProvider, $urlRouterProvider) {
 
 })();
 
-angular
-  .module('MyPromoter', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
 (function (){
 
 angular
