@@ -2,9 +2,9 @@
 
   angular
     .module('MyPromoter')
-    .controller('GlobalController', globalController);
+    .controller('GlobalController', GlobalController);
 
-  globalController.$inject = [
+  GlobalController.$inject = [
     '$scope',
     '$state',
     '$window',
@@ -20,7 +20,7 @@
     'chatFactory'
   ];
 
-  function globalController($scope, $state, $window, $timeout, authFactory, consumersFactory, consumersListenersFactory, landingFactory, promotersFactory, searchFactory, soundFactory, socketFactory, chatFactory) {
+  function GlobalController($scope, $state, $window, $timeout, authFactory, consumersFactory, consumersListenersFactory, landingFactory, promotersFactory, searchFactory, soundFactory, socketFactory, chatFactory) {
     var emit = socketFactory.emit;
     var on = socketFactory.on;
 
