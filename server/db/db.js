@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 mongoose.connect('mongodb://localhost/MyPromoter');
-console.log('MongoDB Connection is Open!');
+console.log('*MongoDB Connected*');
 
 var usersSchema = new Schema({
   /*ADD IN FACEBOOK, TWITTER, IG SPECS*/

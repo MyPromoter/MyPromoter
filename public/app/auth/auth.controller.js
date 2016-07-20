@@ -46,4 +46,5 @@ function AuthController($scope, authFactory, soundFactory) {
 	};
 
 }
+
 })();

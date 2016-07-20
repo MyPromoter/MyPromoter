@@ -7,20 +7,21 @@
     </div>
 
     <div id='enter'>
-      <h1>Enter:</h1>
-      <!--App Logo As a Button-->
-      <button</button>
+       <a ng-click="Landing.enterApp()"><img id="appIcon" ng-src="{{Landing.appIconURL}}"/></a>
     </div>
 
     <div id='promoters'>
       <h2>Promoters:</h2>
-      <button>Sign In</button>
-      <button>Sign Up</button>
+      <button ng-click="Landing.goToSignIn()">Sign In</button>
+      <h4>|</h4>
+      <button ng-click="Landing.goToSignUp()">Sign Up</button>
     </div>
 
     <div id='about'>
-      <button>Our Services</button>
-      <button>Meet Management</button>
+      <h3>About Us</h3>
+      <button ng-click="Landing.goToOurServices()">Our Services</button>
+      <h4>|</h4>
+      <button ng-click="Landing.goToMeetManagement()">Meet Management</button>
     </div>
 
   </div>

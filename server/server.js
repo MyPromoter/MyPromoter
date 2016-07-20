@@ -26,7 +26,7 @@ app.use('/signup', signUp);
 app.use('/signin', signIn);
 
 server.listen(port);
-console.log('Server Running, Port: ', port);
+console.log('*Server Running, Port: ',port+'*');
 
 io.on('connection', function(socket) {
   console.log('*New Client Connected*');
