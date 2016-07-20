@@ -21,7 +21,8 @@
     "angular-socket-io": "^0.7.0",
     "angular-spinkit": "^0.3.4",
     "angular-ui-router": "^0.3.1",
-    "socket.io-client": "^1.4.8"
+    "socket.io-client": "^1.4.8",
+    "angular-ui-bootstrap": "^2.0.0"
   },
   "devDependencies": {
     "colors": "^3.0.0"
