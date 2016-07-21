@@ -513,12 +513,11 @@ angular
   .module('app')
   .factory('consumersListenersFactory', consumersListenersFactory);
 
-  consumersListenersFactory.$inject = ['$state', 'socketFactory', 'consumersFactory'];
+  consumersListenersFactory.$inject = ['$state', 'socketFactory'];
 
-  function consumersListenersFactory($state, socketFactory, consumersFactory) {
+  function consumersListenersFactory($state, socketFactory) {
 
     var socket = socketFactory;
-    var consumers = consumersFactory;
 
     return {
       init: init
