@@ -2,12 +2,12 @@ angular
   .module('MyPromoter')
   .config(config);
 
-var AboutController = require('./about/about.controller.js');
-var AuthController = require('./auth/auth.controller.js');
-var ConsumersController = require('./consumers/consumers.controller.js');
-var LandingController = require('./landing/landing.controller.js');
-var PromotersController = require('./promoters/promoters.controller.js');
-var SearchController = require('./search/search.controller.js');
+var AboutController = './about/about.controller.js';
+var AuthController = './auth/auth.controller.js';
+var ConsumersController = './consumers/consumers.controller.js';
+var LandingController = './landing/landing.controller.js';
+var PromotersController = './promoters/promoters.controller.js';
+var SearchController = './search/search.controller.js';
 
 function config($stateProvider, $urlRouterProvider) {
 

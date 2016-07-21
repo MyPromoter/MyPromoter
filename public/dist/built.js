@@ -4,12 +4,12 @@ angular
   .module('MyPromoter')
   .config(config);
 
-var AboutController = require('./about/about.controller.js');
-var AuthController = require('./auth/auth.controller.js');
-var ConsumersController = require('./consumers/consumers.controller.js');
-var LandingController = require('./landing/landing.controller.js');
-var PromotersController = require('./promoters/promoters.controller.js');
-var SearchController = require('./search/search.controller.js');
+var AboutController = './about/about.controller.js';
+var AuthController = './auth/auth.controller.js';
+var ConsumersController = './consumers/consumers.controller.js';
+var LandingController = './landing/landing.controller.js';
+var PromotersController = './promoters/promoters.controller.js';
+var SearchController = './search/search.controller.js';
 
 function config($stateProvider, $urlRouterProvider) {
 
@@ -82,9 +82,9 @@ function config($stateProvider, $urlRouterProvider) {
 
   angular
     .module('MyPromoter')
-    .controller('GlobalController', GlobalController);
+    .controller('AppController', appController);
 
-  GlobalController.$inject = [
+  appController.$inject = [
     '$scope',
     '$state',
     '$window',
@@ -100,7 +100,7 @@ function config($stateProvider, $urlRouterProvider) {
     'chatFactory'
   ];
 
-  function GlobalController($scope, $state, $window, $timeout, authFactory, consumersFactory, consumersListenersFactory, landingFactory, promotersFactory, searchFactory, soundFactory, socketFactory, chatFactory) {
+  function appController($scope, $state, $window, $timeout, authFactory, consumersFactory, consumersListenersFactory, landingFactory, promotersFactory, searchFactory, soundFactory, socketFactory, chatFactory) {
     var emit = socketFactory.emit;
     var on = socketFactory.on;
 
