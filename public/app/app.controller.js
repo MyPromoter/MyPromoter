@@ -11,7 +11,6 @@
     '$timeout',
     'authFactory',
     'consumersFactory',
-    'consumersListenersFactory',
     'landingFactory',
     'promotersFactory',
     'searchFactory',
@@ -20,7 +19,7 @@
     'chatFactory'
   ];
 
-  function appController($scope, $state, $window, $timeout, authFactory, consumersFactory, consumersListenersFactory, landingFactory, promotersFactory, searchFactory, soundFactory, socketFactory, chatFactory) {
+  function appController($scope, $state, $window, $timeout, authFactory, consumersFactory, landingFactory, promotersFactory, searchFactory, soundFactory, socketFactory, chatFactory) {
     var emit = socketFactory.emit;
     var on = socketFactory.on;
 
