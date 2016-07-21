@@ -17,9 +17,6 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'public/app/app.module.js',
-          'public/app/app.config.js',
-          'public/app/app.controller.js',
-
 
           'public/app/about/**/*.factory.js',
           'public/app/about/**/*.controller.js',
@@ -39,7 +36,10 @@ module.exports = function(grunt) {
           'public/app/search/**/*.factory.js',
           'public/app/search/**/*.controller.js',
 
-          'public/app/shared/**/*.factory.js'
+          'public/app/shared/**/*.factory.js',
+
+          'public/app/app.controller.js',
+          'public/app/app.config.js'
         ],
         dest: 'public/dist/built.js',
       }

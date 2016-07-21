@@ -1,204 +1,5 @@
 angular
   .module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
-angular
-  .module('app')
-  .config(config);
-
-var AboutController = './about/about.controller.js';
-var AuthController = './auth/auth.controller.js';
-var ConsumersController = './consumers/consumers.controller.js';
-var LandingController = './landing/landing.controller.js';
-var PromotersController = './promoters/promoters.controller.js';
-var SearchController = './search/search.controller.js';
-
-function config($stateProvider, $urlRouterProvider) {
-
-  $urlRouterProvider.otherwise('/landing');
-
-	$stateProvider
-		.state('landing', {
-			url: '/landing',
-			templateUrl: '../app/landing/landing.html',
-			controller: LandingController,
-			controllerAs: 'Landing',
-			data: {
-				bodyClasses: 'landing',
-				auth: false
-			}
-		})
-		.state('about', {
-			url: '/about',
-			templateUrl: '../app/about/about.html',
-			controller: AboutController,
-			controllerAs: 'About',
-			data: {
-				bodyClasses: 'about',
-				auth: false
-			}
-		})
-		.state('auth', {
-			url: '/auth',
-			templateUrl: '../app/auth/auth.html',
-			controller: AuthController,
-			controllerAs: 'Auth',
-			data: {
-				bodyClasses: 'auth',
-				auth: false
-			}
-		})
-	  .state('consumers', {
-	  	url: '/consumers',
-	  	templateUrl: '../app/consumers/consumers.html',
-	  	controller: ConsumersController,
-	  	controllerAs: 'Consumers',
-	  	data: {
-	  		bodyClasses : 'consumers',
-	  		auth: false
-	  	}
-	  })
-	  .state('promoters', {
-	  	url: '/promoters',
-	  	templateUrl: '../app/promoters/promoters.html',
-	  	controller: PromotersController,
-	  	controllerAs: 'Promoters',
-	  	data: {
-	  		bodyClasses : 'promoters',
-	  		auth: true
-	  	}
-	  })
-	  .state('search', {
-	  	url: '/search',
-	  	templateUrl: '../app/search/search.html',
-	  	controller: SearchController,
-	  	controllerAs: 'Search',
-	  	data: {
-	  		bodyClasses : 'search',
-	  		auth: false
-	  	}
-	  });
-}
-
-(function() {
-
-  angular
-    .module('app')
-    .controller('AppController', appController);
-
-  appController.$inject = [
-    '$scope',
-    '$state',
-    '$window',
-    '$timeout',
-    'authFactory',
-    'socketFactory',
-    'chatFactory'
-  ];
-
-  function appController($scope, $state, $window, $timeout, authFactory, socketFactory, chatFactory) {
-    var emit = socketFactory.emit;
-    var on = socketFactory.on;
-
-    var consumersListeners = consumersListenersFactory;
-    var socket = socketFactory;
-
-    var consumers = consumersFactory;
-
-    var vm = this;
-    vm.bodyClasses = 'default';
-
-    function goLanding() {
-      $state.go('landing');
-    }
-
-    // During App State Change,
-    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-
-        console.log('*State Change Detected* =========');
-        console.log('From: ', fromState.name);
-        console.log('To: ', toState.name);
-        console.log('======================');
-
-      if (toState.data.authenticate) {
-        if (!authFactory.isAuthed()) {
-          $state.go('auth');
-          return;
-        }
-      }
-
-      if (toState.name === 'consumers') {
-        consumersFactory.reset();
-        socket.disconnect();
-        socket.connectSocket().then(function() {
-          consumersListeners.init();
-          chatFactory.chatListeners();
-          socket.emit('who am i');
-        });
-      }
-
-      if (toState.name === 'loading') {
-
-        if (!consumersFactory.get('loading')) {
-          goToConsumers();
-          return;
-        }
-
-        if (fromState.name !== 'consumers') {
-          goToLobby();
-          return;
-        }
-
-        if (!socket.isConnected()) {
-          console.error('toState.name: loading // *ERROR: Socket NOT Connected*');
-          $state.go('consumers');
-          return;
-        }
-
-        loadingListenersFactory.init();
-      }
-
-      if (toState.name === 'CHANGE_To_Right_STATE') {
-        if (fromState.name !== 'loading') {
-          goToLobby();
-          return;
-        }
-
-        if (!socketFactory.isConnected()) {
-          console.error('toState.name: CHANGE_To_Right_STATE // *ERROR: Socket NOT Connected*');
-          $state.go('consumers');
-          return;
-        }
-
-        //*Initialize State Socket Listeners Here*//
-
-        angular.element(document).ready(function() {
-          $timeout(function() {
-            console.log('*Emitted: clientReady*');
-            socketFactory.emit('client ready');
-          }, 2000);
-        });
-      }
-
-      if (fromState.name === 'loading') {
-        loadingFactory.reset();
-      }
-
-      if (fromState.name === 'consumers') {
-        consumersFactory.reset();
-      }
-
-      if (angular.isDefined(toState.data)) {
-        if (angular.isDefined(toState.data.bodyClasses)) {
-          vm.bodyClasses = toState.data.bodyClasses;
-          return;
-        }
-      }
-
-      vm.bodyClasses = 'default';
-    });
-  }
-
-})();
-
 (function (){
 
 angular
@@ -806,3 +607,201 @@ function SearchController($scope, searchFactory, soundFactory) {
 }
 
 })();
+(function() {
+
+  angular
+    .module('app')
+    .controller('AppController', appController);
+
+  appController.$inject = [
+    '$scope',
+    '$state',
+    '$window',
+    '$timeout',
+    'authFactory',
+    'socketFactory',
+    'chatFactory'
+  ];
+
+  function appController($scope, $state, $window, $timeout, authFactory, socketFactory, chatFactory) {
+    var emit = socketFactory.emit;
+    var on = socketFactory.on;
+
+    var consumersListeners = consumersListenersFactory;
+    var socket = socketFactory;
+
+    var consumers = consumersFactory;
+
+    var vm = this;
+    vm.bodyClasses = 'default';
+
+    function goLanding() {
+      $state.go('landing');
+    }
+
+    // During App State Change,
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+
+        console.log('*State Change Detected* =========');
+        console.log('From: ', fromState.name);
+        console.log('To: ', toState.name);
+        console.log('======================');
+
+      if (toState.data.authenticate) {
+        if (!authFactory.isAuthed()) {
+          $state.go('auth');
+          return;
+        }
+      }
+
+      if (toState.name === 'consumers') {
+        consumersFactory.reset();
+        socket.disconnect();
+        socket.connectSocket().then(function() {
+          consumersListeners.init();
+          chatFactory.chatListeners();
+          socket.emit('who am i');
+        });
+      }
+
+      if (toState.name === 'loading') {
+
+        if (!consumersFactory.get('loading')) {
+          goToConsumers();
+          return;
+        }
+
+        if (fromState.name !== 'consumers') {
+          goToLobby();
+          return;
+        }
+
+        if (!socket.isConnected()) {
+          console.error('toState.name: loading // *ERROR: Socket NOT Connected*');
+          $state.go('consumers');
+          return;
+        }
+
+        loadingListenersFactory.init();
+      }
+
+      if (toState.name === 'CHANGE_To_Right_STATE') {
+        if (fromState.name !== 'loading') {
+          goToLobby();
+          return;
+        }
+
+        if (!socketFactory.isConnected()) {
+          console.error('toState.name: CHANGE_To_Right_STATE // *ERROR: Socket NOT Connected*');
+          $state.go('consumers');
+          return;
+        }
+
+        //*Initialize State Socket Listeners Here*//
+
+        angular.element(document).ready(function() {
+          $timeout(function() {
+            console.log('*Emitted: clientReady*');
+            socketFactory.emit('client ready');
+          }, 2000);
+        });
+      }
+
+      if (fromState.name === 'loading') {
+        loadingFactory.reset();
+      }
+
+      if (fromState.name === 'consumers') {
+        consumersFactory.reset();
+      }
+
+      if (angular.isDefined(toState.data)) {
+        if (angular.isDefined(toState.data.bodyClasses)) {
+          vm.bodyClasses = toState.data.bodyClasses;
+          return;
+        }
+      }
+
+      vm.bodyClasses = 'default';
+    });
+  }
+
+})();
+
+angular
+  .module('app')
+  .config(config);
+
+var AboutController = './about/about.controller.js';
+var AuthController = './auth/auth.controller.js';
+var ConsumersController = './consumers/consumers.controller.js';
+var LandingController = './landing/landing.controller.js';
+var PromotersController = './promoters/promoters.controller.js';
+var SearchController = './search/search.controller.js';
+
+function config($stateProvider, $urlRouterProvider) {
+
+  $urlRouterProvider.otherwise('/landing');
+
+	$stateProvider
+		.state('landing', {
+			url: '/landing',
+			templateUrl: '../app/landing/landing.html',
+			controller: LandingController,
+			controllerAs: 'Landing',
+			data: {
+				bodyClasses: 'landing',
+				auth: false
+			}
+		})
+		.state('about', {
+			url: '/about',
+			templateUrl: '../app/about/about.html',
+			controller: AboutController,
+			controllerAs: 'About',
+			data: {
+				bodyClasses: 'about',
+				auth: false
+			}
+		})
+		.state('auth', {
+			url: '/auth',
+			templateUrl: '../app/auth/auth.html',
+			controller: AuthController,
+			controllerAs: 'Auth',
+			data: {
+				bodyClasses: 'auth',
+				auth: false
+			}
+		})
+	  .state('consumers', {
+	  	url: '/consumers',
+	  	templateUrl: '../app/consumers/consumers.html',
+	  	controller: ConsumersController,
+	  	controllerAs: 'Consumers',
+	  	data: {
+	  		bodyClasses : 'consumers',
+	  		auth: false
+	  	}
+	  })
+	  .state('promoters', {
+	  	url: '/promoters',
+	  	templateUrl: '../app/promoters/promoters.html',
+	  	controller: PromotersController,
+	  	controllerAs: 'Promoters',
+	  	data: {
+	  		bodyClasses : 'promoters',
+	  		auth: true
+	  	}
+	  })
+	  .state('search', {
+	  	url: '/search',
+	  	templateUrl: '../app/search/search.html',
+	  	controller: SearchController,
+	  	controllerAs: 'Search',
+	  	data: {
+	  		bodyClasses : 'search',
+	  		auth: false
+	  	}
+	  });
+}
