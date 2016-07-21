@@ -1,7 +1,7 @@
 (function() {
 
   angular
-    .module('MyPromoter')
+    .module('app')
     .controller('AppController', appController);
 
   appController.$inject = [

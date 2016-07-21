@@ -1,5 +1,5 @@
 angular
-  .module('MyPromoter')
+  .module('app')
   .config(config);
 
 var AboutController = './about/about.controller.js';

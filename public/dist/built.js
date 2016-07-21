@@ -1,7 +1,7 @@
 angular
-  .module('MyPromoter', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
+  .module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit']);
 angular
-  .module('MyPromoter')
+  .module('app')
   .config(config);
 
 var AboutController = './about/about.controller.js';
@@ -81,7 +81,7 @@ function config($stateProvider, $urlRouterProvider) {
 (function() {
 
   angular
-    .module('MyPromoter')
+    .module('app')
     .controller('AppController', appController);
 
   appController.$inject = [
