@@ -1,18 +1,16 @@
-(function() {
-
 angular
   .module('app', ['ui.router', 'ngAnimate', 'mcwebb.sound', 'angular-spinkit'])
-  .controller('AppController', appController)
+  .controller('AppController', AppController)
   .config(appConfig);
 
-  appController.$inject = [
+  AppController.$inject = [
     '$scope',
     '$state',
     '$window',
     '$timeout'
   ];
 
-  function appController($scope, $state, $window, $timeout) {
+  function AppController($scope, $state, $window, $timeout) {
 
   }
 
@@ -82,5 +80,3 @@ angular
         }
       });
   }
-
-})();

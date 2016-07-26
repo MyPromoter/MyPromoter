@@ -12,7 +12,7 @@ angular
     return {
       loadSounds: loadSounds,
       playChat: playPaymentProcessed,
-      playClick: playClick,
+      playClick: playClick
     };
 
     function loadSounds() {

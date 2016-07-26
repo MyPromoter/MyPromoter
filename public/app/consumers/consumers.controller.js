@@ -1,8 +1,9 @@
 (function () {
 'use strict';
- angular
-  .module('app')
-  .controller('ConsumersController', ConsumersController);
+
+  angular
+    .module('app')
+    .controller('ConsumersController', ConsumersController);
 
   ConsumersController.$inject = ['$scope', 'consumersFactory', 'socketFactory', 'authFactory', 'soundFactory', 'chatFactory'];
 
@@ -58,9 +59,9 @@
       socket.emit('queue', message);
     };
 
-	  vm.chat = function(){
-		  socket.emit('chat');
-	  };
+    vm.chat = function(){
+  	  socket.emit('chat');
+    };
 
 
     vm.signOut = function() {
@@ -118,4 +119,5 @@
     };
 
   }
+
 })();

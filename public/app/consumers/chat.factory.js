@@ -14,6 +14,12 @@ angular
       messages: []
     };
 
+    return {
+      chatListeners: chatListeners,
+      get: get,
+      set: set
+    };
+
     function chatListeners() {
 
       socket.on('updated user list', function(data) {
@@ -44,11 +50,5 @@ angular
         console.log('*State: ',state,'*');
       }
     }
-
-    return {
-      chatListeners: chatListeners,
-      get: get,
-      set: set
-    };
 
   }

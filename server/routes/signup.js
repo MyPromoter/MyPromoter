@@ -32,11 +32,11 @@ router.post('/', function(req, res){
                      })
           .save(function(err, post) {
             if(err){
-              console.log('User NOT Saved in DB! ', err);
+              console.log('*User NOT Saved in DB, Error: ', err+'*');
             } else {
               newUser.find({username: req.body.username}, function(err, users) {
                 if(err){
-                  console.log('User Saved in DB, Error Assigning Token!');
+                  console.log('*User Saved in DB, Error Assigning Token*');
                 } else {
                   var stringUID = users[0]._id.toString();
                   var token = tokenGenerator.createToken({uid: stringUID, username: users[0].username});
@@ -47,7 +47,7 @@ router.post('/', function(req, res){
           });
     		});
     	} else {
-    	  console.log("Email or username taken!");
+    	  console.log("*Email or Username Taken*");
         res.send({exists: true, message: 'Email or username taken!'});
     	}
     });

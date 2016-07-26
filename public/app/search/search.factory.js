@@ -1,29 +1,27 @@
-(function (){
-  angular
-    .module('app')
-    .factory('searchFactory', searchFactory);
+angular
+  .module('app')
+  .factory('searchFactory', searchFactory);
 
-    searchFactory.$inject = ['$http', '$window', '$state'];
+  searchFactory.$inject = ['$http', '$window', '$state'];
 
-    function searchFactory($http, $window, $state) {
+  function searchFactory($http, $window, $state) {
 
-      console.log('*searchFactory Running*');
+    console.log('*searchFactory Running*');
 
-      var state = {};
+    var state = {};
 
-      return {
-        get: get,
-        set: set
-      };
+    return {
+      get: get,
+      set: set
+    };
 
-      function get(name) {
-        return state[name];
-      }
-
-      function set(key, value){
-        state[key] = value;
-        return;
-      }
-
+    function get(name) {
+      return state[name];
     }
-})();
+
+    function set(key, value){
+      state[key] = value;
+      return;
+    }
+
+  }

@@ -1,30 +1,30 @@
 (function (){
 
-angular
-  .module('app')
-  .controller('PromotersController', PromotersController);
+  angular
+    .module('app')
+    .controller('PromotersController', PromotersController);
 
-PromotersController.$inject = ['$scope', 'promotersFactory', 'soundFactory'];
+  PromotersController.$inject = ['$scope', 'promotersFactory', 'soundFactory'];
 
-function PromotersController($scope, promotersFactory, soundFactory) {
-  var vm = this;
-  var pf = promotersFactory;
-  vm.appIconURL = '../../images/MyPromoter.png';
+  function PromotersController($scope, promotersFactory, soundFactory) {
+    var vm = this;
+    var pf = promotersFactory;
+    vm.appIconURL = '../../images/MyPromoter.png';
 
-  soundFactory.loadSounds();
+    soundFactory.loadSounds();
 
-  vm.enterApp = function() {
-    pf.enterApp();
-  };
+    vm.enterApp = function() {
+      pf.enterApp();
+    };
 
-  vm.goAuth = function() {
-    pf.goAuth();
-  };
+    vm.goAuth = function() {
+      pf.goAuth();
+    };
 
-  vm.goAbout = function() {
-    pf.goAbout();
-  };
+    vm.goAbout = function() {
+      pf.goAbout();
+    };
 
-}
+  }
 
 })();

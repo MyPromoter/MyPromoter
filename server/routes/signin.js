@@ -19,10 +19,10 @@ router.post('/', function (req, res) {
 		if (users.length) {
 			bcrypt.compare(req.body.password, users[0].password, function (err, result) {
 				if (err) {
-					console.log('bcryptError:  ', err);
+					console.log('*bcryptError:  ', err+'*');
 				}
 				if (result) {
-					console.log('passwordCorrect');
+					console.log('*Password Correct*');
 					var stringUID = users[0]._id.toString();
 					var token = tokenGenerator.createToken({
 						uid: stringUID,
@@ -30,12 +30,12 @@ router.post('/', function (req, res) {
 					});
 					res.send({token: token, auth: result});
 				} else {
-					console.log('passwordIncorrect');
+					console.log('*Password Incorrect*');
 					res.send({auth: result, message: 'Invalid username or password'});
 				}
 			});
 		} else {
-			console.log("Username Does Not Exist!");
+			console.log("*Username Does Not Exist*");
 			res.send({auth: false, message: 'Invalid username or password'});
 		}
 	});
