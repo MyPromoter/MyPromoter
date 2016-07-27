@@ -79,4 +79,5 @@ angular
           auth: false
         }
       });
+
   }
