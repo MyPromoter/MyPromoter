@@ -11,8 +11,9 @@ function AuthController($scope, authFactory, soundFactory) {
 
 	soundFactory.loadSounds();
 
-	vm.signUpForm = false;
-	vm.signInForm = true;
+	vm.signUpForm = true;
+	vm.signInForm = false;
+
 	vm.signUpErrorMessage = function() {
 		return authFactory.get('signupErrorMessage');
 	};

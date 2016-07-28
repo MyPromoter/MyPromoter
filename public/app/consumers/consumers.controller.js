@@ -13,7 +13,9 @@
     var vm = this;
 
     soundFactory.loadSounds();
-    authFactory.checkAuth();
+
+    // Ensure Client is SignedIn:
+    // authFactory.checkAuth();
 
     vm.get = consumersFactory.get;
     vm.set = consumersFactory.set;

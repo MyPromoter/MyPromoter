@@ -57,7 +57,7 @@
 				<input
 					ng-class="{ 'form-error' : Auth.associatedArtist.$invalid && !Auth.associatedArtist.$pristine }"
 					ng-model="Auth.associatedArtist"
-					type="text" placeholder="associatedArtist (Whom You Know Really Well)" class="input">
+					type="text" placeholder="Associated Artist" class="input">
 				<i class="fa fa-user" aria-hidden="true"></i>
 			</div>
 
@@ -65,13 +65,13 @@
 				<input
 					ng-class="{ 'form-error' : Auth.city.$invalid && !Auth.city.$pristine }"
 					ng-model="Auth.city"
-					type="text" placeholder="City (Base of Operations)" class="input">
+					type="text" placeholder="City" class="input">
 				<i class="fa fa-user" aria-hidden="true"></i>
 			</div>
 
 			<button class="block yellow" class="input" ng-click="Auth.signUp({firstName: Auth.firstName,lastName: Auth.lastName, username: Auth.usernameUp, email: Auth.email, password: Auth.passwordUp, city: Auth.city, venue: Auth.associatedVenue, artist: Auth.associatedArtist, isPromoter: true}); Auth.playClick()">Sign Up</button>
 
-			<!-- for error on signUp -->
+			<!-- ERROR on signUp -->
 			<div class="error-message" ng-if="Auth.signUpErrorMessage() && !Auth.signInForm">{{Auth.signUpErrorMessage()}}</div>
 
 			<div class="switch-view-link">
@@ -92,7 +92,7 @@
 			</div>
 			<button class="block yellow" ng-click="Auth.signIn({username: Auth.usernameIn, password: Auth.passwordIn, isPromoter: true}); Auth.playClick()">Sign In</button>
 
-			<!-- for error on signIn -->
+			<!-- ERROR on signIn -->
 			<div class="error-message" ng-if="Auth.signInErrorMessage() && Auth.signInForm">{{Auth.signInErrorMessage()}}</div>
 
 			<div class="switch-view-link">

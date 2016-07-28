@@ -9,7 +9,6 @@ var usersSchema = new Schema({
   /*ADD IN FACEBOOK, TWITTER, IG SPECS*/
   firstName: String,
   lastName: String,
-  dob: String/*DATE FORMAT*/,
   driversLicense: String/*UPLOAD IMAGE*/,
   email: String,
   username: String,
