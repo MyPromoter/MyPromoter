@@ -3,6 +3,8 @@
 		<div class="logo-container">
 			<h1 class="logo">MyPromoter</h1>
 			<h2 class="subtitle">An Upscale Connection to Nightlife</h2>
+			<h3 class="subtitle">Connect With Millions of Clients!</h3>
+
 		</div>
 		<form class="auth-form sign-up" name="signUpForm" method="post" ng-show="Auth.signUpForm">
 			<div class="input-container">
@@ -69,7 +71,23 @@
 				<i class="fa fa-user" aria-hidden="true"></i>
 			</div>
 
-			<button class="block yellow" class="input" ng-click="Auth.signUp({firstName: Auth.firstName,lastName: Auth.lastName, username: Auth.usernameUp, email: Auth.email, password: Auth.passwordUp, city: Auth.city, venue: Auth.associatedVenue, artist: Auth.associatedArtist, isPromoter: true}); Auth.playClick()">Sign Up</button>
+			<div class="input-container">
+				<p>Upload Valid Driver's License Photo (.jpg):</p>
+				<input
+					ng-model="Auth.driversLicense"
+					type="file" class="input">
+				<i class="fa fa-user" aria-hidden="true"></i>
+			</div>
+
+			<div class="input-container">
+				<p>Upload Professional Photo (.jpg):</p>
+				<input
+					ng-model="Auth.userPic"
+					type="file" class="input">
+				<i class="fa fa-user" aria-hidden="true"></i>
+			</div>
+
+			<button class="block yellow" class="input" ng-click="Auth.signUp({firstName: Auth.firstName,lastName: Auth.lastName, username: Auth.usernameUp, email: Auth.email, password: Auth.passwordUp, city: Auth.city, associatedVenue: Auth.associatedVenue, associatedArtist: Auth.associatedArtist, isPromoter: true}); Auth.playClick()">Sign Up</button>
 
 			<!-- ERROR on signUp -->
 			<div class="error-message" ng-if="Auth.signUpErrorMessage() && !Auth.signInForm">{{Auth.signUpErrorMessage()}}</div>

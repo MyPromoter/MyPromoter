@@ -4,9 +4,9 @@ angular
   .module('app')
   .controller('AuthController', AuthController);
 
-AuthController.$inject = ['$scope', 'authFactory', 'soundFactory'];
+AuthController.$inject = ['$scope', 'authFactory', 'soundFactory', 'Upload'];
 
-function AuthController($scope, authFactory, soundFactory) {
+function AuthController($scope, authFactory, soundFactory, Upload) {
 	var vm = this;
 
 	soundFactory.loadSounds();
